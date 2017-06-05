@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+
 var quizController = require('../controllers/quiz_controller');
 var tipController = require('../controllers/tip_controller');
 var userController = require('../controllers/user_controller');
@@ -36,6 +37,9 @@ router.get(/(?!\/new$|\/edit$|\/play$|\/check$|\/session$|\/(\d+)$)\/[^\/]*$/, f
 
 //-----------------------------------------------------------
 
+var quizController = require('../controllers/quiz_controller')
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('index');
@@ -45,14 +49,12 @@ router.get('/', function (req, res, next) {
 router.get('/author', function (req, res, next) {
     res.render('author');
 });
-//Pagina de ayuda
+/* GET ayuda */
 router.get('/help', function(req, res, next) {
     res.render('help');
 });
 
-
-
-// Autoload de rutas que usen :quizId
+//Autoload para rutas que usen :quizId
 router.param('quizId', quizController.load);
 router.param('userId', userController.load);
 router.param('tipId',  tipController.load);
@@ -90,6 +92,18 @@ router.delete('/users/:userId(\\d+)',
 
 router.get('/users/:userId(\\d+)/quizzes', quizController.index);     // ver las preguntas de un usuario
 
+
+//Definicion de rutas de /quizzes
+router.get('/quizzes', quizController.index); //Cuando llega una peticion para quizcontroller
+router.get('/quizzes/:quizId(\\d+)', quizController.show);//Cuando se pide ver una pregunta
+router.get('/quizzes/new', quizController.new);//cuando se quiere crear un nuevo quiz
+router.post('/quizzes', quizController.create);//Cuando se quiere subir un nuevo quiz
+router.get('/quizzes/:quizId(\\d+)/edit', quizController.edit);//cuando se quiere editar un quizz
+router.put('/quizzes/:quizId(\\d+)', quizController.update);
+router.delete('/quizzes/:quizId(\\d+)', quizController.destroy); //Funcion de eliminar una pregunta
+
+router.get('/quizzes/:quizId(\\d+)/play', quizController.play);//Se empieza a jugar
+router.get('/quizzes/:quizId(\\d+)/check', quizController.check);//Para comprobar si hemos acertado
 
 
 // Definición de rutas de /quizzes
@@ -135,6 +149,13 @@ router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/accept',
 router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
     sessionController.loginRequired,
     tipController.destroy);
+
+
+//Definicion de rutas de random
+router.get('/quizzes/random_play', quizController.randomplay);
+router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
+//router.get('/quizzes/randomnone', quizController.randomnone);
+
 
 
 module.exports = router;
