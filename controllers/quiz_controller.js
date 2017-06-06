@@ -193,7 +193,7 @@ exports.randomplay = function (req, res, next) {
             if(count===used.length){
                 var score = req.session.randomplay.resolved.length;
                 req.session.randomplay.resolved=[];
-                res.render('quizzes/random_none', {score:score});
+                res.render('quizzes/random_nomore', {score:score});
                 next();
             }
             var max = count - req.session.randomplay.resolved.length-1;
