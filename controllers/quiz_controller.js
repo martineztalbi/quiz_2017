@@ -8,7 +8,7 @@ var paginate = require('../helpers/paginate').paginate;
 
     models.Quiz.findById(quizId, {
         include: [
-            models.Tip,
+            {model: models.Tip, include: [{model: models.User, as : 'Author'}]},
             {model: models.User, as: 'Author'}
         ]
     })

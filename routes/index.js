@@ -156,6 +156,15 @@ router.get('/quizzes/random_play', quizController.randomplay);
 router.get('/quizzes/randomcheck/:quizId(\\d+)', quizController.randomcheck);
 //router.get('/quizzes/randomnone', quizController.randomnone);
 
+//Definicion de las rutas de tipcontroller
+router.post('/quizzes/:quizId(\\d+)/tips', sessionController.loginRequired, tipController.create);
+router.put('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)/accept',
+    sessionController.loginRequired, quizController.adminOrAuthorRequired,
+    tipController.accept);
+router.delete('/quizzes/:quizId(\\d+)/tips/:tipId(\\d+)',
+    sessionController.loginRequired, tipController.adminOrAuthorRequired,
+tipController.destroy);
+
 
 
 module.exports = router;

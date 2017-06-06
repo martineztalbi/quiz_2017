@@ -1,18 +1,17 @@
 'use strict';
 
+'use strict';
+
 module.exports = {
     up: function (queryInterface, Sequelize) {
         return queryInterface.addColumn(
             'Tips',
-            'accepted',
-            {
-                type: Sequelize.BOOLEAN,
-                defaultValue: false
-            }
+            'AuthorId',
+            {type: Sequelize.INTEGER}
         );
     },
 
     down: function (queryInterface, Sequelize) {
-        return queryInterface.removeColumn('Tips', 'accepted');
+        return queryInterface.removeColumn('Tips', 'AuthorId');
     }
-};
+}; 
